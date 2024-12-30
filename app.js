@@ -1,6 +1,7 @@
 let prevBtn = document.querySelector('#prevBtn')
 let nextBtn = document.querySelector('#nextBtn')
 let p = document.querySelector('p')
+let tc
 
 let imgContainer = document.querySelector('.imgContainer')
 let imgZoom1 = document.querySelector('.imgZoom:nth-child(1)')
