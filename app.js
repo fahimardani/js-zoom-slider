@@ -1,139 +1,143 @@
+/* Bekasanmu */
 let prevBtn = document.querySelector('#prevBtn')
 let nextBtn = document.querySelector('#nextBtn')
 let p = document.querySelector('p')
-let tc
 
 let imgContainer = document.querySelector('.imgContainer')
-let imgZoom1 = document.querySelector('.imgZoom:nth-child(1)')
-let imgZoom2 = document.querySelector('.imgZoom:nth-child(2)')
-let imgZoom3 = document.querySelector('.imgZoom:nth-child(3)')
-let imgZoom4 = document.querySelector('.imgZoom:nth-child(4)')
-let imgZoom5 = document.querySelector('.imgZoom:nth-child(5)')
 
-let grayFilter1 = function(){
-  imgZoom1.style.filter = 'grayscale(0)'
-  imgZoom2.style.filter = 'grayscale(1)'
-  imgZoom3.style.filter = 'grayscale(1)'
-  imgZoom4.style.filter = 'grayscale(1)'
-  imgZoom5.style.filter = 'grayscale(1)'
-}
-let grayFilter2 = function(){
-  imgZoom1.style.filter = 'grayscale(1)'
-  imgZoom2.style.filter = 'grayscale(0)'
-  imgZoom3.style.filter = 'grayscale(1)'
-  imgZoom4.style.filter = 'grayscale(1)'
-  imgZoom5.style.filter = 'grayscale(1)'
-}
-let grayFilter3 = function(){
-  imgZoom1.style.filter = 'grayscale(1)'
-  imgZoom2.style.filter = 'grayscale(1)'
-  imgZoom3.style.filter = 'grayscale(0)'
-  imgZoom4.style.filter = 'grayscale(1)'
-  imgZoom5.style.filter = 'grayscale(1)'
-}
-let grayFilter4 = function(){
-  imgZoom1.style.filter = 'grayscale(1)'
-  imgZoom2.style.filter = 'grayscale(1)'
-  imgZoom3.style.filter = 'grayscale(1)'
-  imgZoom4.style.filter = 'grayscale(0)'
-  imgZoom5.style.filter = 'grayscale(1)'
-}
-let grayFilter5 = function(){
-  imgZoom1.style.filter = 'grayscale(1)'
-  imgZoom2.style.filter = 'grayscale(1)'
-  imgZoom3.style.filter = 'grayscale(1)'
-  imgZoom4.style.filter = 'grayscale(1)'
-  imgZoom5.style.filter = 'grayscale(0)'
-}
+/* Pre variable */
+///////////////////////////////////////////////
+const character = [
+  {
+    order: 1,
+    id: "shin-asakura",
+    display: "Shin Asakura",
+    img: "images/shin-asakura.webp"
+  },
+  {
+    order: 2,
+    id: "taro-sakamoto",
+    display: "Taro Sakamoto",
+    img: "images/taro-sakamoto.webp"
+  },
+  {
+    order: 3,
+    id: "aoi-n-hana-sakamoto",
+    display: "Aoi Sakamoto <br> Hana Sakamoto",
+    img: "images/Aoi-Sakamoto-Hana-Sakamoto.png"
+  },
+  {
+    order: 4,
+    id: "heisuke-mashimo",
+    display: "Heisuke Mashimo",
+    img: "images/heisuke-mashimo.webp"
+  },
+  {
+    order: 5,
+    id: "lu-shaotang",
+    display: "Lu Shaotang",
+    img: "images/lu-shaotang.webp"
+  },
+]
+const characterObj = {}
 
-let zoom1 = function(){
-  imgZoom1.style.transform = `perspective(1000px) translateX(-600px) translateZ(750px)`
-  imgZoom2.style.transform = `perspective(1000px) translateX(-400px) translateZ(500px)`
+/* Engine */
+///////////////////////////////////////////////
+/* -Init function */
+// function yang dipakai buat inisiasi
 
-  imgZoom3.style.transform = `perspective(1000px) translateX(-200px) translateZ(250px)`
-  imgZoom4.style.transform = `perspective(1000px) translateX(0px) translateZ(0px)`
-  imgZoom5.style.transform = `perspective(1000px) translateX(200px) translateZ(-250px)`
-}
-let zoom2 = function(){
-  imgZoom1.style.transform = `perspective(1000px) translateX(-400px) translateZ(500px)`
-  imgZoom2.style.transform = `perspective(1000px) translateX(-200px) translateZ(250px)`
+// karena penambahan item itu lebih mudah
+// pakai format array. Makanya bentuk dasarannya
+// array dulu gak langsung object.
+// Tapi eksekusinya full pakai object
+// (Array untuk inisiasi doang)
+const arrayToObject = function(){
+  // pastiin urut. Ini toleransi
+  // agar walau arraynya isinya
+  // berantakan pun masih bisa
+  // diproses
+  const orderedCharacter = character.sort((a, b)=>{
+    a.order < b.order
+  })
 
-  imgZoom3.style.transform = `perspective(1000px) translateX(0px) translateZ(0px)`
-  imgZoom4.style.transform = `perspective(1000px) translateX(200px) translateZ(-250px)`
-  imgZoom5.style.transform = `perspective(1000px) translateX(400px) translateZ(-500px)`
-}
-let zoom3 = function(){
-  imgZoom1.style.transform = `perspective(1000px) translateX(-200px) translateZ(250px)`
-  imgZoom2.style.transform = `perspective(1000px) translateX(0px) translateZ(0px)`
-
-  imgZoom3.style.transform = `perspective(1000px) translateX(200px) translateZ(-250px)`
-  imgZoom4.style.transform = `perspective(1000px) translateX(400px) translateZ(-500px)`
-  imgZoom5.style.transform = `perspective(1000px) translateX(600px) translateZ(-750px)`
-}
-
-prevBtn.onclick = ()=> {
-  if (p.innerHTML === "Lu Shaotang") {
-    p.innerHTML = "Heisuke Mashimo";
-    grayFilter4()
-    zoom1()
+  for(const char of orderedCharacter){
+    characterObj[char.id] = char
   }
-  else if (p.innerHTML === "Heisuke Mashimo") {
-    p.innerHTML = "Aoi Sakamoto <br> Hana Sakamoto";
-    grayFilter3()
-    zoom2()
-  }
-  else if (p.innerHTML === "Aoi Sakamoto <br> Hana Sakamoto") {
-    p.innerHTML = "Taro Sakamoto";
-    grayFilter2()
-    zoom3()
-  }
-  else if (p.innerHTML === "Taro Sakamoto") {
-    p.innerHTML = "Shin Asakura";
-    grayFilter1()
+}
 
-    imgZoom1.style.transform = `perspective(1000px) translateX(0px) translateZ(0px)`
-    imgZoom2.style.transform = `perspective(1000px) translateX(200px) translateZ(-250px)`
+/* -Engine function */
+// function2 utama pengolahan (mesin utama)
+const grayFilter = function(characterId){
+  // ubah semua mjd gray
+  for(const id in characterObj){
+    document.querySelector(`#${characterObj[id].id}`).style.filter = 'grayscale(1)'
     
-    imgZoom3.style.transform = `perspective(1000px) translateX(400px) translateZ(-500px)`
-    imgZoom4.style.transform = `perspective(1000px) translateX(600px) translateZ(-750px)`
-    imgZoom5.style.transform = `perspective(1000px) translateX(800px) translateZ(-1000px)`
   }
-  else {
-    prevBtn = null
-  } 
 
+  // (pengecualian)
+  // ubah focused 1 doang mjd warna
+  document.querySelector(`#${characterObj[characterId].id}`).style.filter = 'grayscale(0)'
 }
-nextBtn.onclick = ()=> {
+const zoom = function(characterId){
+  const intervalX = 200 // jarak antar translateX 200 ya?
+  const intervalZ = 250 // also
+  const focusedOrder = characterObj[characterId].order // fix-sasi urutan gambar yang lagi diklik
 
-  if (p.innerHTML === "Shin Asakura") {
-      p.innerHTML = "Taro Sakamoto";
-      grayFilter2()
-      zoom3()
+  for(char in characterObj){
+    const baseLayout = {
+      x: -600,
+      z: 750
+    }
+    // ratio untuk masing2 gambar
+    // (current order dikurangi yang lagi
+    // diklik).
+    // Dengan string tolerance (kalau string
+    // otomatis diubah ke number)
+    const differential = Number(characterObj[char].order-focusedOrder)+3 // pokoknya gitu nemunya ini trial and error
+    const calculatedAxis = `translateX(${baseLayout.x+(intervalX*differential)}px) translateZ(${baseLayout.z-(intervalZ*differential)}px)`
+    // metode matematika cumming
+    document.querySelector(`#${characterObj[char].id}`).style.transform = `perspective(1000px) ${calculatedAxis}`
   }
-  else if (p.innerHTML === "Taro Sakamoto") {
-      p.innerHTML = "Aoi Sakamoto <br> Hana Sakamoto";
-      grayFilter3()
-      zoom2()
-  }
-  else if (p.innerHTML === "Aoi Sakamoto <br> Hana Sakamoto") {
-      p.innerHTML = "Heisuke Mashimo";
-      grayFilter4()
-      zoom1()
-  }
-  else if (p.innerHTML === "Heisuke Mashimo") {
-      p.innerHTML = "Lu Shaotang";
-      grayFilter5()
-
-      imgZoom1.style.transform = `perspective(1000px) translateX(-800px) translateZ(1000px)`
-      imgZoom2.style.transform = `perspective(1000px) translateX(-600px) translateZ(750px)`
-      
-      imgZoom3.style.transform = `perspective(1000px) translateX(-400px) translateZ(500px)`
-      imgZoom4.style.transform = `perspective(1000px) translateX(-200px) translateZ(250px)`
-      imgZoom5.style.transform = `perspective(1000px) translateX(0px) translateZ(0px)`
-  }
-  else {
-      nextBtn = null
-  }
-
 }
 
+/* -Encapsulate function */
+// function yang membundling beberapa
+// function lain untuk sekaligus dalam
+// 1 eksekusi
+const initPosition = function(firstOrderId){
+  grayFilter(firstOrderId)
+}
+const setFocus = function(){
+  const focusedId = charCollection[currentSwipe-1] // -1 krn array
+
+  grayFilter(focusedId)
+  zoom(focusedId)
+  p.innerHTML = characterObj[focusedId].display
+}
+/* Proses */
+///////////////////////////////////////////////
+arrayToObject()
+
+const charCollection = Object.keys(characterObj).sort((a, b)=> a.order < b.order)
+// -> ['shin-asakura', 'taro-sakamoto', 'aoi-n-hana-sakamoto',...]
+let currentSwipe = 1
+const mutateSwipe = function(operand){
+  if(operand == '++'){
+    if(currentSwipe >= charCollection.length) currentSwipe
+    else currentSwipe++
+  }
+  else if(operand == '--'){
+    if(currentSwipe <= 1) currentSwipe
+    else currentSwipe--
+  }
+  else{
+    throw Error(`Unknown operand ${operand}`)
+  }
+
+  setFocus()
+}
+
+initPosition(charCollection[currentSwipe-1])
+
+nextBtn.onclick = ()=> mutateSwipe('++')
+prevBtn.onclick = ()=> mutateSwipe('--')
