@@ -38,6 +38,12 @@ const character = [
     display: "Lu Shaotang",
     img: "images/lu-shaotang.webp"
   },
+  {
+    order: 6,
+    id: "karasu",
+    display: "Karasu",
+    img: "images/karasu.png"
+  },
 ]
 const characterObj = {}
 
