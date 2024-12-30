@@ -2,137 +2,93 @@ let prevBtn = document.querySelector('#prevBtn')
 let nextBtn = document.querySelector('#nextBtn')
 let p = document.querySelector('p')
 
-let imgContainer = document.querySelector('.imgContainer')
-let imgZoom1 = document.querySelector('.imgZoom:nth-child(1)')
-let imgZoom2 = document.querySelector('.imgZoom:nth-child(2)')
-let imgZoom3 = document.querySelector('.imgZoom:nth-child(3)')
-let imgZoom4 = document.querySelector('.imgZoom:nth-child(4)')
-let imgZoom5 = document.querySelector('.imgZoom:nth-child(5)')
-
-let grayFilter1 = function(){
-  imgZoom1.style.filter = 'grayscale(0)'
-  imgZoom2.style.filter = 'grayscale(1)'
-  imgZoom3.style.filter = 'grayscale(1)'
-  imgZoom4.style.filter = 'grayscale(1)'
-  imgZoom5.style.filter = 'grayscale(1)'
-}
-let grayFilter2 = function(){
-  imgZoom1.style.filter = 'grayscale(1)'
-  imgZoom2.style.filter = 'grayscale(0)'
-  imgZoom3.style.filter = 'grayscale(1)'
-  imgZoom4.style.filter = 'grayscale(1)'
-  imgZoom5.style.filter = 'grayscale(1)'
-}
-let grayFilter3 = function(){
-  imgZoom1.style.filter = 'grayscale(1)'
-  imgZoom2.style.filter = 'grayscale(1)'
-  imgZoom3.style.filter = 'grayscale(0)'
-  imgZoom4.style.filter = 'grayscale(1)'
-  imgZoom5.style.filter = 'grayscale(1)'
-}
-let grayFilter4 = function(){
-  imgZoom1.style.filter = 'grayscale(1)'
-  imgZoom2.style.filter = 'grayscale(1)'
-  imgZoom3.style.filter = 'grayscale(1)'
-  imgZoom4.style.filter = 'grayscale(0)'
-  imgZoom5.style.filter = 'grayscale(1)'
-}
-let grayFilter5 = function(){
-  imgZoom1.style.filter = 'grayscale(1)'
-  imgZoom2.style.filter = 'grayscale(1)'
-  imgZoom3.style.filter = 'grayscale(1)'
-  imgZoom4.style.filter = 'grayscale(1)'
-  imgZoom5.style.filter = 'grayscale(0)'
+let imgZoom = document.querySelectorAll('.imgZoom')
+let imgArray = []
+for(let i = 0; i < imgZoom.length; i++){
+  imgArray.push(imgZoom[i])
 }
 
-let zoom1 = function(){
-  imgZoom1.style.transform = `perspective(1000px) translateX(-600px) translateZ(750px)`
-  imgZoom2.style.transform = `perspective(1000px) translateX(-400px) translateZ(500px)`
+let perspective = 'perspective(1000px)'
+let bnw = 'grayscale(1)'
+let notBnw = 'grayscale(0)'
 
-  imgZoom3.style.transform = `perspective(1000px) translateX(-200px) translateZ(250px)`
-  imgZoom4.style.transform = `perspective(1000px) translateX(0px) translateZ(0px)`
-  imgZoom5.style.transform = `perspective(1000px) translateX(200px) translateZ(-250px)`
-}
-let zoom2 = function(){
-  imgZoom1.style.transform = `perspective(1000px) translateX(-400px) translateZ(500px)`
-  imgZoom2.style.transform = `perspective(1000px) translateX(-200px) translateZ(250px)`
-
-  imgZoom3.style.transform = `perspective(1000px) translateX(0px) translateZ(0px)`
-  imgZoom4.style.transform = `perspective(1000px) translateX(200px) translateZ(-250px)`
-  imgZoom5.style.transform = `perspective(1000px) translateX(400px) translateZ(-500px)`
-}
-let zoom3 = function(){
-  imgZoom1.style.transform = `perspective(1000px) translateX(-200px) translateZ(250px)`
-  imgZoom2.style.transform = `perspective(1000px) translateX(0px) translateZ(0px)`
-
-  imgZoom3.style.transform = `perspective(1000px) translateX(200px) translateZ(-250px)`
-  imgZoom4.style.transform = `perspective(1000px) translateX(400px) translateZ(-500px)`
-  imgZoom5.style.transform = `perspective(1000px) translateX(600px) translateZ(-750px)`
+let zoom = ()=> {
+  let X = -(click * 200)
+  let Z = click * 250
+  
+  imgZoom[0].style.transform = `${perspective} translateX(${X}px) translateZ(${Z}px)`
+  imgZoom[1].style.transform = `${perspective} translateX(${X + 200}px) translateZ(${Z - 250}px)`
+  imgZoom[2].style.transform = `${perspective} translateX(${X + 400}px) translateZ(${Z - 500}px)`
+  imgZoom[3].style.transform = `${perspective} translateX(${X + 600}px) translateZ(${Z - 750}px)`
+  imgZoom[4].style.transform = `${perspective} translateX(${X + 800}px) translateZ(${Z - 1000}px)`
 }
 
+let click = 0
 prevBtn.onclick = ()=> {
+  click--
+  
   if (p.innerHTML === "Lu Shaotang") {
     p.innerHTML = "Heisuke Mashimo";
-    grayFilter4()
-    zoom1()
+    zoom()
+
+    imgZoom[4].style.filter = bnw
+    imgZoom[3].style.filter = notBnw
+    nextBtn.disabled = false
   }
   else if (p.innerHTML === "Heisuke Mashimo") {
     p.innerHTML = "Aoi Sakamoto <br> Hana Sakamoto";
-    grayFilter3()
-    zoom2()
+    zoom()
+
+    imgZoom[3].style.filter = bnw
+    imgZoom[2].style.filter = notBnw
   }
   else if (p.innerHTML === "Aoi Sakamoto <br> Hana Sakamoto") {
     p.innerHTML = "Taro Sakamoto";
-    grayFilter2()
-    zoom3()
-  }
-  else if (p.innerHTML === "Taro Sakamoto") {
-    p.innerHTML = "Shin Asakura";
-    grayFilter1()
+    zoom()
 
-    imgZoom1.style.transform = `perspective(1000px) translateX(0px) translateZ(0px)`
-    imgZoom2.style.transform = `perspective(1000px) translateX(200px) translateZ(-250px)`
-    
-    imgZoom3.style.transform = `perspective(1000px) translateX(400px) translateZ(-500px)`
-    imgZoom4.style.transform = `perspective(1000px) translateX(600px) translateZ(-750px)`
-    imgZoom5.style.transform = `perspective(1000px) translateX(800px) translateZ(-1000px)`
+    imgZoom[2].style.filter = bnw
+    imgZoom[1].style.filter = notBnw
   }
   else {
-    prevBtn = null
-  } 
+    p.innerHTML = "Shin Asakura";
+    zoom()
 
+    imgZoom[1].style.filter = bnw
+    imgZoom[0].style.filter = notBnw
+    prevBtn.disabled = true
+  }
 }
 nextBtn.onclick = ()=> {
+  click++
 
   if (p.innerHTML === "Shin Asakura") {
-      p.innerHTML = "Taro Sakamoto";
-      grayFilter2()
-      zoom3()
+    p.innerHTML = "Taro Sakamoto";
+    zoom()
+      
+    imgZoom[0].style.filter = bnw
+    imgZoom[1].style.filter = notBnw
+    prevBtn.disabled = false
   }
   else if (p.innerHTML === "Taro Sakamoto") {
-      p.innerHTML = "Aoi Sakamoto <br> Hana Sakamoto";
-      grayFilter3()
-      zoom2()
+    p.innerHTML = "Aoi Sakamoto <br> Hana Sakamoto";
+    zoom()
+
+    imgZoom[1].style.filter = bnw
+    imgZoom[2].style.filter = notBnw
   }
   else if (p.innerHTML === "Aoi Sakamoto <br> Hana Sakamoto") {
-      p.innerHTML = "Heisuke Mashimo";
-      grayFilter4()
-      zoom1()
-  }
-  else if (p.innerHTML === "Heisuke Mashimo") {
-      p.innerHTML = "Lu Shaotang";
-      grayFilter5()
+    p.innerHTML = "Heisuke Mashimo";
+    zoom()
 
-      imgZoom1.style.transform = `perspective(1000px) translateX(-800px) translateZ(1000px)`
-      imgZoom2.style.transform = `perspective(1000px) translateX(-600px) translateZ(750px)`
-      
-      imgZoom3.style.transform = `perspective(1000px) translateX(-400px) translateZ(500px)`
-      imgZoom4.style.transform = `perspective(1000px) translateX(-200px) translateZ(250px)`
-      imgZoom5.style.transform = `perspective(1000px) translateX(0px) translateZ(0px)`
+    imgZoom[2].style.filter = bnw
+    imgZoom[3].style.filter = notBnw
   }
   else {
-      nextBtn = null
+    p.innerHTML = "Lu Shaotang";
+    zoom()
+
+    imgZoom[3].style.filter = bnw
+    imgZoom[4].style.filter = notBnw
+    nextBtn.disabled = true
   }
-
 }
-
